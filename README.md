@@ -2,7 +2,7 @@
 
 Docker container for Virtual Radar Server (http://www.virtualradarserver.co.uk).
 
-Builds and runs on x86_64, arm32v7 and arm64v8 (and possibly other architectures).
+Builds and runs on x86_64, arm32v6, arm32v7 and arm64v8 (and possibly other architectures).
 
 ---
 
