@@ -101,6 +101,7 @@ RUN set -x && \
         apt-transport-https \
         ca-certificates \
         dirmngr \
+        file \
         gnupg \
         && \
     apt-key adv \
@@ -129,6 +130,7 @@ RUN set -x && \
     # Clean-up
     apt-get remove -y \
         apt-transport-https \
+        file \
         gnupg \
         && \
     apt-get autoremove -y && \
