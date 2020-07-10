@@ -108,7 +108,7 @@ volumes:
 
 services:
   virtualradarserver:
-    image: vrstest:latest
+    image: mikenye/virtualradarserver:latest
     tty: true
     container_name: vrs
     restart: always
