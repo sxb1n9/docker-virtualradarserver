@@ -140,9 +140,9 @@ RUN apt-get update -y && \
 RUN echo "Create vrs user..." && \
     useradd --home-dir /home/vrs --skel /etc/skel --create-home --user-group --shell /usr/sbin/nologin vrs && \
     chown -R vrs:vrs /config && \
-    echo "Get vrs version..." && \
-    grep version /config/.local/share/VirtualRadar/VirtualRadarLog.txt | grep -oP 'Program started, version (\d+.(\d+.)+),' | cut -d ',' -f 2 | cut -d ' ' -f 3 | head -1 > /VERSION && \
-    cat /VERSION && \
+    # echo "Get vrs version..." && \
+    # grep version /config/.local/share/VirtualRadar/VirtualRadarLog.txt | grep -oP 'Program started, version (\d+.(\d+.)+),' | cut -d ',' -f 2 | cut -d ' ' -f 3 | head -1 > /VERSION && \
+    # cat /VERSION && \
     echo "Install s6-overlay..." &&  \
     curl -s https://raw.githubusercontent.com/mikenye/deploy-s6-overlay/master/deploy-s6-overlay.sh | sh && \
     echo "Clean up..."
