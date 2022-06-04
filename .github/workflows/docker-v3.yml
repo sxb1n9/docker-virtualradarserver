@@ -25,10 +25,10 @@ jobs:
           images: sxb1n9/docker-virtualradarserver
         
       - name: Build the tagged Docker image
-        run: docker build . --file Dockerfile --tag sxb7006/docker-virtualradarserver:${{ steps.meta.outputs.tags }}
+        run: docker build . --file Dockerfile --tag ${{ steps.meta.outputs.tags }}
         
       - name: Push the tagged Docker image
-        run: docker push sxb7006/docker-virtualradarserver:${{ steps.meta.outputs.tags }}
+        run: docker push ${{ steps.meta.outputs.tags }}
         
       - name: Build the latest Docker image
         run: docker build . --file Dockerfile --tag sxb7006/docker-virtualradarserver:latest
