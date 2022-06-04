@@ -20,7 +20,7 @@ ADD https://github.com/vradarserver/vrs/releases/download/v3.0.0-preview-7-mono/
 
 # Download Operator Logo Start Pack
 #   - Instructions from: https://forum.virtualradarserver.co.uk/viewtopic.php?t=929
-ADD https://github.com/sxb1n9/docker-virtualradarserver/blob/0f76b9be40e516cf891d49bf7d4e62dca4f1e70f/assets/LOGO.zip /tmp/files/operator-logo-starter-pack.zip
+ADD https://github.com/sxb1n9/docker-virtualradarserver/raw/0f76b9be40e516cf891d49bf7d4e62dca4f1e70f/assets/LOGO.zip /tmp/files/operator-logo-starter-pack.zip
 # Change because of failed downloads
 # ADD http://www.woodair.net/SBS/Download/LOGO.zip /tmp/files/operator-logo-starter-pack.zip
 
