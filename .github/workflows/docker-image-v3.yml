@@ -1,4 +1,6 @@
-name: Docker Build and Push v3
+name: Docker Build and Push
+
+# v3 trial
 
 on:
   push:
