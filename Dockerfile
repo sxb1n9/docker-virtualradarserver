@@ -1,14 +1,22 @@
 FROM debian:buster-slim AS builder
 
-# Download VirtualRadarServer
-ADD http://www.virtualradarserver.co.uk/Files/VirtualRadar.tar.gz /tmp/files/VirtualRadar.tar.gz
-ADD http://www.virtualradarserver.co.uk/Files/VirtualRadar.LanguagePack.tar.gz /tmp/files/VirtualRadar.LanguagePack.tar.gz
-ADD http://www.virtualradarserver.co.uk/Files/VirtualRadar.WebAdminPlugin.tar.gz /tmp/files/VirtualRadar.WebAdminPlugin.tar.gz
-ADD http://www.virtualradarserver.co.uk/Files/VirtualRadar.DatabaseWriterPlugin.tar.gz /tmp/files/VirtualRadar.DatabaseWriterPlugin.tar.gz
-ADD http://www.virtualradarserver.co.uk/Files/VirtualRadar.CustomContentPlugin.tar.gz /tmp/files/VirtualRadar.CustomContentPlugin.tar.gz
-ADD http://www.virtualradarserver.co.uk/Files/VirtualRadar.DatabaseEditorPlugin.tar.gz /tmp/files/VirtualRadar.DatabaseEditorPlugin.tar.gz
-ADD http://www.virtualradarserver.co.uk/Files/VirtualRadar.TileServerCachePlugin.tar.gz /tmp/files/VirtualRadar.TileServerCachePlugin.tar.gz
-ADD http://www.virtualradarserver.co.uk/Files/VirtualRadar.exe.config.tar.gz /tmp/files/VirtualRadar.exe.config.tar.gz
+# Download VirtualRadarServer v3p7
+ADD https://github.com/vradarserver/vrs/releases/download/v3.0.0-preview-7-mono/VirtualRadar-3.0.0-preview-7.tar.gz /tmp/files/VirtualRadar.tar.gz
+
+# Download Plugins v3p7
+ADD https://github.com/vradarserver/vrs/releases/download/v3.0.0-preview-7-mono/Plugin-WebAdmin-3.0.0-preview-7.tar.gz /tmp/files/VirtualRadar.WebAdminPlugin.tar.gz
+ADD https://github.com/vradarserver/vrs/releases/download/v3.0.0-preview-7-mono/Plugin-TileServerCache-3.0.0-preview-7.tar.gz /tmp/files/VirtualRadar.TileServerCachePlugin.tar.gz
+ADD https://github.com/vradarserver/vrs/releases/download/v3.0.0-preview-7-mono/Plugin-DatabaseWriter-3.0.0-preview-7.tar.gz /tmp/files/VirtualRadar.DatabaseWriterPlugin.tar.gz
+ADD https://github.com/vradarserver/vrs/releases/download/v3.0.0-preview-7-mono/Plugin-DatabaseEditor-3.0.0-preview-7.tar.gz /tmp/files/VirtualRadar.DatabaseEditorPlugin.tar.gz
+ADD https://github.com/vradarserver/vrs/releases/download/v3.0.0-preview-7-mono/Plugin-CustomContent-3.0.0-preview-7.tar.gz /tmp/files/VirtualRadar.CustomContentPlugin.tar.gz
+ADD https://github.com/vradarserver/vrs/releases/download/v3.0.0-preview-7-mono/LanguagePack-3.0.0-preview-7.tar.gz /tmp/files/VirtualRadar.LanguagePack.tar.gz
+
+# Download Plugins v3p7 not in v2
+ADD https://github.com/vradarserver/vrs/releases/download/v3.0.0-preview-7-mono/Plugin-SqlServer-3.0.0-preview-7.tar.gz /tmp/files/VirtualRadar.SqlServerPlugin.tar.gz
+ADD https://github.com/vradarserver/vrs/releases/download/v3.0.0-preview-7-mono/Plugin-FeedFilter-3.0.0-preview-7.tar.gz /tmp/files/VirtualRadar.FeedFilter.tar.gz
+
+# Config is not in v3 
+#ADD http://www.virtualradarserver.co.uk/Files/VirtualRadar.exe.config.tar.gz /tmp/files/VirtualRadar.exe.config.tar.gz
 
 # Download Operator Logo Start Pack
 #   - Instructions from: https://forum.virtualradarserver.co.uk/viewtopic.php?t=929
@@ -49,7 +57,7 @@ RUN set -x && \
     tar -C /opt/VirtualRadar -xzf /tmp/files/VirtualRadar.CustomContentPlugin.tar.gz && \
     tar -C /opt/VirtualRadar -xzf /tmp/files/VirtualRadar.DatabaseEditorPlugin.tar.gz && \
     tar -C /opt/VirtualRadar -xzf /tmp/files/VirtualRadar.TileServerCachePlugin.tar.gz && \
-    tar -C /opt/VirtualRadar -xf /tmp/files/VirtualRadar.exe.config.tar.gz && \
+    # tar -C /opt/VirtualRadar -xf /tmp/files/VirtualRadar.exe.config.tar.gz && \
     mkdir -p /config/operatorflags && \
     mkdir -p /config/silhouettes && \
     HOME=/config && \
