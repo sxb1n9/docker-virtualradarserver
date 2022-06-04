@@ -27,9 +27,9 @@ ADD https://github.com/sxb1n9/docker-virtualradarserver/raw/0f76b9be40e516cf891d
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # Build container
-# Pre-requisites to install specific mono version --no-install-recommends 
+# Pre-requisites to install specific mono version
 RUN set -x && \
-    apt-get update -y && \
+    apt-get update --no-install-recommends -y && \
     apt-get install  -y \
         apt-transport-https \
         ca-certificates \
@@ -44,8 +44,8 @@ RUN  apt-key adv \
     # echo "# Mono 6.4.0.198+ breaks VRS markers and icons, see: https://forum.virtualradarserver.com/viewtopic.php?t=1957" > /etc/apt/sources.list.d/mono-official-stable.list && \
     # echo "deb https://download.mono-project.com/repo/debian buster/snapshots/6.0.0.334 main" | tee /etc/apt/sources.list.d/mono-official-stable.list && \
 
-# update --no-install-recommends 
-RUN apt-get update -y && \
+# update 
+RUN apt-get update --no-install-recommends  -y && \
     apt-get install -y \
         git \
         mono-complete \
@@ -113,10 +113,10 @@ COPY --from=builder /config /config
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
-# Pre-requisites to install specific mono version --no-install-recommends 
+# Pre-requisites to install specific mono version
 RUN set -x && \
-    apt-get update -y && \
-    apt-get install -y \
+    apt-get update --no-install-recommends -y && \
+    apt-get install --no-install-recommends  -y \
         apt-transport-https \
         ca-certificates \
         dirmngr \
@@ -127,11 +127,11 @@ RUN apt-key adv \
         --keyserver hkp://keyserver.ubuntu.com:80 \
         --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF 
         
-    # echo "# Mono 6.4.0.198+ breaks VRS markers and icons, see: https://forum.virtualradarserver.com/viewtopic.php?t=1957" > /etc/apt/sources.list.d/mono-official-stable.list && \
-    # echo "deb https://download.mono-project.com/repo/debian buster/snapshots/6.0.0.334 main" | tee /etc/apt/sources.list.d/mono-official-stable.list && \
-    # --no-install-recommend
-RUN apt-get update -y && \
-    apt-get install -y \
+# echo "# Mono 6.4.0.198+ breaks VRS markers and icons, see: https://forum.virtualradarserver.com/viewtopic.php?t=1957" > /etc/apt/sources.list.d/mono-official-stable.list && \
+# echo "deb https://download.mono-project.com/repo/debian buster/snapshots/6.0.0.334 main" | tee /etc/apt/sources.list.d/mono-official-stable.list && \
+    
+RUN apt-get update --no-install-recommends -y && \
+    apt-get install --no-install-recommends -y \
         curl \
         mono-complete \
         sqlite3 \
@@ -140,14 +140,16 @@ RUN apt-get update -y && \
 RUN echo "Create vrs user..." && \
     useradd --home-dir /home/vrs --skel /etc/skel --create-home --user-group --shell /usr/sbin/nologin vrs && \
     chown -R vrs:vrs /config && \
+    
     # echo "Get vrs version..." && \
     # grep version /config/.local/share/VirtualRadar/VirtualRadarLog.txt | grep -oP 'Program started, version (\d+.(\d+.)+),' | cut -d ',' -f 2 | cut -d ' ' -f 3 | head -1 > /VERSION && \
     # cat /VERSION && \
+    
     echo "Install s6-overlay..." &&  \
     curl -s https://raw.githubusercontent.com/mikenye/deploy-s6-overlay/master/deploy-s6-overlay.sh | sh && \
     echo "Clean up..."
     
-    # Clean-up
+# Clean-up
 RUN apt-get remove -y \
         apt-transport-https \
         file \
