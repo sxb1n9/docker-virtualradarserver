@@ -25,31 +25,34 @@ ADD http://www.woodair.net/SBS/Download/LOGO.zip /tmp/files/operator-logo-starte
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # Build container
+# Pre-requisites to install specific mono version --no-install-recommends 
 RUN set -x && \
-    # Pre-requisites to install specific mono version
     apt-get update -y && \
-    apt-get install --no-install-recommends -y \
+    apt-get install  -y \
         apt-transport-https \
         ca-certificates \
         dirmngr \
-        gnupg \
-        && \
-    apt-key adv \
+        gnupg
+        
+# apt-key   
+RUN  apt-key adv \
         --keyserver hkp://keyserver.ubuntu.com:80 \
-        --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF \
-        && \
-    echo "# Mono 6.4.0.198+ breaks VRS markers and icons, see: https://forum.virtualradarserver.com/viewtopic.php?t=1957" > /etc/apt/sources.list.d/mono-official-stable.list && \
-    echo "deb https://download.mono-project.com/repo/debian buster/snapshots/6.0.0.334 main" | tee /etc/apt/sources.list.d/mono-official-stable.list && \
-    # -----------------------------------------------
-    apt-get update -y && \
-    apt-get install --no-install-recommends -y \
+        --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
+ 
+    # echo "# Mono 6.4.0.198+ breaks VRS markers and icons, see: https://forum.virtualradarserver.com/viewtopic.php?t=1957" > /etc/apt/sources.list.d/mono-official-stable.list && \
+    # echo "deb https://download.mono-project.com/repo/debian buster/snapshots/6.0.0.334 main" | tee /etc/apt/sources.list.d/mono-official-stable.list && \
+
+# update --no-install-recommends 
+RUN apt-get update -y && \
+    apt-get install -y \
         git \
         mono-complete \
         unzip \
         uuid-runtime \
-        xmlstarlet \
-        && \
-    mkdir -p /opt/VirtualRadar && \
+        xmlstarlet
+        
+# VRS install 
+    RUN mkdir -p /opt/VirtualRadar && \
     tar -C /opt/VirtualRadar -xzf /tmp/files/VirtualRadar.tar.gz && \
     tar -C /opt/VirtualRadar -xzf /tmp/files/VirtualRadar.LanguagePack.tar.gz && \
     tar -C /opt/VirtualRadar -xzf /tmp/files/VirtualRadar.WebAdminPlugin.tar.gz && \
@@ -108,31 +111,31 @@ COPY --from=builder /config /config
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
+# Pre-requisites to install specific mono version --no-install-recommends 
 RUN set -x && \
-    # Pre-requisites to install specific mono version
     apt-get update -y && \
-    apt-get install --no-install-recommends -y \
+    apt-get install -y \
         apt-transport-https \
         ca-certificates \
         dirmngr \
         file \
-        gnupg \
-        && \
-    apt-key adv \
+        gnupg 
+        
+RUN apt-key adv \
         --keyserver hkp://keyserver.ubuntu.com:80 \
-        --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF \
-        && \
-    echo "# Mono 6.4.0.198+ breaks VRS markers and icons, see: https://forum.virtualradarserver.com/viewtopic.php?t=1957" > /etc/apt/sources.list.d/mono-official-stable.list && \
-    echo "deb https://download.mono-project.com/repo/debian buster/snapshots/6.0.0.334 main" | tee /etc/apt/sources.list.d/mono-official-stable.list && \
-    # -----------------------------------------------
-    apt-get update -y && \
-    apt-get install -y --no-install-recommends \
+        --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF 
+        
+    # echo "# Mono 6.4.0.198+ breaks VRS markers and icons, see: https://forum.virtualradarserver.com/viewtopic.php?t=1957" > /etc/apt/sources.list.d/mono-official-stable.list && \
+    # echo "deb https://download.mono-project.com/repo/debian buster/snapshots/6.0.0.334 main" | tee /etc/apt/sources.list.d/mono-official-stable.list && \
+    # --no-install-recommend
+RUN apt-get update -y && \
+    apt-get install -y \
         curl \
         mono-complete \
         sqlite3 \
-        xmlstarlet \
-        && \
-    echo "Create vrs user..." && \
+        xmlstarlet
+        
+RUN echo "Create vrs user..." && \
     useradd --home-dir /home/vrs --skel /etc/skel --create-home --user-group --shell /usr/sbin/nologin vrs && \
     chown -R vrs:vrs /config && \
     echo "Get vrs version..." && \
@@ -140,9 +143,10 @@ RUN set -x && \
     cat /VERSION && \
     echo "Install s6-overlay..." &&  \
     curl -s https://raw.githubusercontent.com/mikenye/deploy-s6-overlay/master/deploy-s6-overlay.sh | sh && \
-    echo "Clean up..." &&  \
+    echo "Clean up..."
+    
     # Clean-up
-    apt-get remove -y \
+RUN apt-get remove -y \
         apt-transport-https \
         file \
         gnupg \
