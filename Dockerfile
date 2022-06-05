@@ -78,7 +78,7 @@ RUN     mkdir -p /opt/VirtualRadar && \
 RUN     echo "Starting VirtualRadarServer for 10 seconds to allow /config to be generated..." && \
         mkdir -p /config/.local/share/VirtualRadar && \
         timeout 10 mono /opt/VirtualRadar/VirtualRadar.exe -nogui -createAdmin:"$(uuidgen -r)" -password:"$(uuidgen -r)" > /dev/null 2>&1 || true && \
-        rm /config/.local/share/VirtualRadar/Users.sqb
+        #rm /config/.local/share/VirtualRadar/Users.sqb
 
 # VRS Silhoettes and Flag PATHS
 RUN     echo "Settings Silhouettes and Flags paths..." && \
