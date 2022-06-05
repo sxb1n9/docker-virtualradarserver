@@ -42,7 +42,7 @@ RUN     apt-key adv \
 RUN     apt-get update; \
         apt-get install -y apt-transport-https && \
         apt-get update && \
-        apt-get install -y dotnet-runtime-3.1
+        apt-get install -y dotnet-runtime-6.0
 
 # update 
 RUN     apt-get update --no-install-recommends  -y && \
