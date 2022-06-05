@@ -26,8 +26,7 @@ SHELL   ["/bin/bash", "-o", "pipefail", "-c"]
 
 # DEPENDENCIES
 RUN     set -x && \
-        apt-get update -y && \
-        apt-get install --no-install-recommends -y \
+        apt-get update && apt-get install -y \
             apt-transport-https \
             ca-certificates \
             curl \
@@ -53,8 +52,8 @@ RUN     mkdir -p dotnet && \
         wget https://packages.microsoft.com/config/debian/10/packages-microsoft-prod.deb && \ 
         dpkg -i packages-microsoft-prod.deb && \
         rm packages-microsoft-prod.deb
-RUN     apt-get update -y 
-RUN     apt-get install --no-install-recommends -y dotnet-runtime-3.1 
+RUN     apt-get update && apt-get install -y \
+             dotnet-runtime-3.1 
         
 # VRS STAGE
 RUN     mkdir -p /opt/VirtualRadar && \
@@ -129,8 +128,7 @@ SHELL   ["/bin/bash", "-o", "pipefail", "-c"]
 
 # DEPENDENCIES
 RUN     set -x && \
-        apt-get update -y && \
-        apt-get install --no-install-recommends -y \
+        apt-get update && apt-get install -y \
             apt-transport-https \
             ca-certificates \
             curl \
@@ -156,8 +154,8 @@ RUN     mkdir -p dotnet && \
         wget https://packages.microsoft.com/config/debian/10/packages-microsoft-prod.deb && \ 
         dpkg -i packages-microsoft-prod.deb && \
         rm packages-microsoft-prod.deb
-RUN     apt-get update -y 
-RUN     apt-get install --no-install-recommends -y dotnet-runtime-3.1 
+RUN     apt-get update && apt-get install -y \
+             dotnet-runtime-3.1 
 
 # SET VRS User
 RUN     echo "Create VRS User..." && \
