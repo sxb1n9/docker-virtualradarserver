@@ -28,8 +28,8 @@ SHELL   ["/bin/bash", "-o", "pipefail", "-c"]
 # Pre-requisites
 RUN     set -x && \
         apt-get update --no-install-recommends -y && \
-        apt-get install  -y \
-        apt-transport-https \
+        apt-get install --no-install-recommends -y \
+            apt-transport-https \
             ca-certificates \
             dirmngr \
             gnupg
@@ -152,9 +152,9 @@ RUN     apt-get update --no-install-recommends -y && \
         
 RUN     echo "Create vrs user..." && \
         useradd --home-dir /home/vrs --skel /etc/skel --create-home --user-group --shell /usr/sbin/nologin vrs && \
-        chown -R vrs:vrs /config && \
+        chown -R vrs:vrs /config
     
-RUN     echo "Install s6-overlay..." &&  \
+RUN     echo "Install s6-overlay..." && \
         curl -s https://raw.githubusercontent.com/mikenye/deploy-s6-overlay/master/deploy-s6-overlay.sh | sh && \
         echo "Clean up..."
     
