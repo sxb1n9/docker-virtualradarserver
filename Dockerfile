@@ -73,7 +73,7 @@ RUN     mkdir -p /opt/VirtualRadar && \
         tar -C /opt/VirtualRadar -xzf /tmp/files/VirtualRadar.TileServerCachePlugin.tar.gz && \
         tar -C /opt/VirtualRadar -xzf /tmp/files/VirtualRadar.SqlServerPlugin.tar.gz && \
         tar -C /opt/VirtualRadar -xzf /tmp/files/VirtualRadar.FeedFilter.tar.gz && \
-        tar -C /opt/VirtualRadar -xzf /tmp/files/VirtualRadar.exe.config.tar.gz && \
+        #tar -C /opt/VirtualRadar -xzf /tmp/files/VirtualRadar.exe.config.tar.gz && \
         mkdir -p /config/operatorflags && \
         mkdir -p /config/silhouettes && \
         mkdir -p /config/.local &&\
