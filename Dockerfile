@@ -19,7 +19,7 @@ ADD     https://github.com/vradarserver/vrs/releases/download/v3.0.0-preview-7-m
 ADD     http://www.virtualradarserver.co.uk/Files/VirtualRadar.exe.config.tar.gz /tmp/files/VirtualRadar.exe.config.tar.gz
 
 # GET Config from ASSETS
-ADD     https://github.com/sxb1n9/docker-virtualradarserver/raw/0f76b9be40e516cf891d49bf7d4e62dca4f1e70f/assets/Configuration.xml /tmp/files/Configuration.xml
+ADD     https://raw.githubusercontent.com/sxb1n9/docker-virtualradarserver/v3/assets/Configuration.xml /tmp/files/Configuration.xml
 
 # Download Operator Logo Start Pack from ASSETS
 ADD     https://github.com/sxb1n9/docker-virtualradarserver/raw/0f76b9be40e516cf891d49bf7d4e62dca4f1e70f/assets/LOGO.zip /tmp/files/operator-logo-starter-pack.zip
