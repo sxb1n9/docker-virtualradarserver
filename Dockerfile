@@ -40,9 +40,11 @@ RUN     apt-key adv \
 
 # install .net core 3.x
 RUN     apt-get update; \
-        apt-get install -y apt-transport-https && \
-        apt-get update && \
-        apt-get install -y dotnet-runtime-6.0
+        apt-get install -y apt-transport-https
+RUN     wget https://packages.microsoft.com/config/debian/10/packages-microsoft-prod.deb
+RUN     dpkg -i packages-microsoft-prod.deb
+RUN     apt-get update
+RUN     apt-get install -y dotnet-runtime-3.1
 
 # update 
 RUN     apt-get update --no-install-recommends  -y && \
