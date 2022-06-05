@@ -11,13 +11,12 @@ ADD     https://github.com/vradarserver/vrs/releases/download/v3.0.0-preview-7-m
 ADD     https://github.com/vradarserver/vrs/releases/download/v3.0.0-preview-7-mono/Plugin-DatabaseEditor-3.0.0-preview-7.tar.gz /tmp/files/VirtualRadar.DatabaseEditorPlugin.tar.gz
 ADD     https://github.com/vradarserver/vrs/releases/download/v3.0.0-preview-7-mono/Plugin-CustomContent-3.0.0-preview-7.tar.gz /tmp/files/VirtualRadar.CustomContentPlugin.tar.gz
 ADD     https://github.com/vradarserver/vrs/releases/download/v3.0.0-preview-7-mono/LanguagePack-3.0.0-preview-7.tar.gz /tmp/files/VirtualRadar.LanguagePack.tar.gz
-
-# GET New Plugins v3p7 not in v2
 ADD     https://github.com/vradarserver/vrs/releases/download/v3.0.0-preview-7-mono/Plugin-SqlServer-3.0.0-preview-7.tar.gz /tmp/files/VirtualRadar.SqlServerPlugin.tar.gz
 ADD     https://github.com/vradarserver/vrs/releases/download/v3.0.0-preview-7-mono/Plugin-FeedFilter-3.0.0-preview-7.tar.gz /tmp/files/VirtualRadar.FeedFilter.tar.gz
 
-# GET Config from ASSETS
+# GET Configs from ASSETS
 ADD     https://raw.githubusercontent.com/sxb1n9/docker-virtualradarserver/v3/assets/Configuration.xml /tmp/files/Configuration.xml
+ADD     https://raw.githubusercontent.com/sxb1n9/docker-virtualradarserver/v3/assets/PluginsConfiguration.txt /tmp/files/PluginsConfiguration.txt
 
 # GET Operator Logo Start Pack from ASSETS ## http://www.woodair.net/SBS/Download/LOGO.zip /tmp/files/operator-logo-starter-pack.zip # Change because of failed downloads
 ADD     https://github.com/sxb1n9/docker-virtualradarserver/raw/0f76b9be40e516cf891d49bf7d4e62dca4f1e70f/assets/LOGO.zip /tmp/files/operator-logo-starter-pack.zip 
