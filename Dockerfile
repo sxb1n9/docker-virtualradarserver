@@ -27,7 +27,6 @@ ADD     https://github.com/sxb1n9/docker-virtualradarserver/raw/0f76b9be40e516cf
 
 SHELL   ["/bin/bash", "-o", "pipefail", "-c"]
 
-# Build container
 # Pre-requisites
 RUN     set -x && \
         apt-get update --no-install-recommends -y && \
@@ -36,7 +35,8 @@ RUN     set -x && \
             ca-certificates \
             dirmngr \
             gnupg
-        
+
+# Ubunto Key
 RUN     apt-key adv \
             --keyserver hkp://keyserver.ubuntu.com:80 \
             --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
@@ -53,7 +53,7 @@ RUN     mkdir -p dotnet && \
 RUN     apt-get update
 RUN     apt-get install -y dotnet-runtime-3.1 
 
-# update 
+# Install dependancies 
 RUN     apt-get update --no-install-recommends  -y && \
         apt-get install --no-install-recommends  -y \
             git \
@@ -85,7 +85,7 @@ RUN     mkdir -p /opt/VirtualRadar && \
 #        timeout 10 mono /opt/VirtualRadar/VirtualRadar.exe -nogui -createAdmin:"TEST" -password:"TEST" || true && \
 #        rm /config/.local/share/VirtualRadar/Users.sqb
 
-# VRS Silhoettes and Flag PATHS
+# VRS CONFIG File & Silhoettes & Flag PATHS
 RUN     echo "Settings Silhouettes and Flags paths..." && \
         mkdir -p /config/.local/share/VirtualRadar && \
         cp /tmp/files/Configuration.xml /config/.local/share/VirtualRadar/Configuration.xml && \
@@ -142,25 +142,39 @@ COPY    --from=builder /config /config
 
 SHELL   ["/bin/bash", "-o", "pipefail", "-c"]
 
-# Pre-requisites to install specific mono version
+# Pre-requisites
 RUN     set -x && \
         apt-get update --no-install-recommends -y && \
-        apt-get install --no-install-recommends  -y \
+        apt-get install --no-install-recommends -y \
             apt-transport-https \
             ca-certificates \
             dirmngr \
-            file \
-            gnupg 
-        
+            gnupg
+
+# Ubunto Key
 RUN     apt-key adv \
             --keyserver hkp://keyserver.ubuntu.com:80 \
-            --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF 
-    
-RUN     apt-get update --no-install-recommends -y && \
-        apt-get install --no-install-recommends -y \
-            curl \
+            --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
+
+# install .net core 3.x
+RUN     apt-get install -y wget 
+RUN     apt-get update; \
+        apt-get install -y apt-transport-https
+RUN     mkdir -p dotnet && \
+        cd dotnet/ && \
+        wget https://packages.microsoft.com/config/debian/10/packages-microsoft-prod.deb && \ 
+        dpkg -i packages-microsoft-prod.deb && \
+        rm packages-microsoft-prod.deb
+RUN     apt-get update
+RUN     apt-get install -y dotnet-runtime-3.1 
+
+# Install dependancies 
+RUN     apt-get update --no-install-recommends  -y && \
+        apt-get install --no-install-recommends  -y \
+            git \
             mono-complete \
-            sqlite3 \
+            unzip \
+            uuid-runtime \
             xmlstarlet
         
 RUN     echo "Create vrs user..." && \
