@@ -32,14 +32,7 @@ RUN     set -x && \
             ca-certificates \
             dirmngr \
             gnupg \ 
-            wget \
-            git \
-            mono-complete \
-            unzip \
-            uuid-runtime \
-            xmlstarlet \ 
-            curl \
-            sqlite3
+            wget
 
 # UBUNTO KEY
 RUN     apt-key adv \
@@ -54,6 +47,17 @@ RUN     mkdir -p dotnet && \
         rm packages-microsoft-prod.deb
 RUN     apt-get update -y 
 RUN     apt-get install --no-install-recommends -y dotnet-runtime-3.1 
+
+# DEPENDENCIES afterward
+RUN     apt-get update -y && \
+        apt-get install --no-install-recommends -y \
+            git \
+            mono-complete \
+            unzip \
+            uuid-runtime \
+            xmlstarlet \ 
+            curl \
+            sqlite3
         
 # VRS STAGE
 RUN     mkdir -p /opt/VirtualRadar && \
@@ -134,14 +138,7 @@ RUN     set -x && \
             ca-certificates \
             dirmngr \
             gnupg \ 
-            wget \
-            git \
-            mono-complete \
-            unzip \
-            uuid-runtime \
-            xmlstarlet \ 
-            curl \
-            sqlite3
+            wget
 
 # UBUNTO KEY
 RUN     apt-key adv \
@@ -156,7 +153,18 @@ RUN     mkdir -p dotnet && \
         rm packages-microsoft-prod.deb
 RUN     apt-get update -y 
 RUN     apt-get install --no-install-recommends -y dotnet-runtime-3.1 
-      
+
+# DEPENDENCIES afterward
+RUN     apt-get update -y && \
+        apt-get install --no-install-recommends -y \
+            git \
+            mono-complete \
+            unzip \
+            uuid-runtime \
+            xmlstarlet \ 
+            curl \
+            sqlite3
+
 # SET VRS User
 RUN     echo "Create VRS User..." && \
         useradd --home-dir /home/vrs --skel /etc/skel --create-home --user-group --shell /usr/sbin/nologin vrs && \
