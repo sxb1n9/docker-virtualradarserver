@@ -11,12 +11,12 @@ ADD     https://github.com/vradarserver/vrs/releases/download/v3.0.0-preview-7-m
 ADD     https://github.com/vradarserver/vrs/releases/download/v3.0.0-preview-7-mono/Plugin-CustomContent-3.0.0-preview-7.tar.gz /tmp/files/VirtualRadar.CustomContentPlugin.tar.gz
 ADD     https://github.com/vradarserver/vrs/releases/download/v3.0.0-preview-7-mono/LanguagePack-3.0.0-preview-7.tar.gz /tmp/files/VirtualRadar.LanguagePack.tar.gz
 
-# Download Plugins v3p7 not in v2
+# Download New Plugins v3p7 not in v2
 ADD     https://github.com/vradarserver/vrs/releases/download/v3.0.0-preview-7-mono/Plugin-SqlServer-3.0.0-preview-7.tar.gz /tmp/files/VirtualRadar.SqlServerPlugin.tar.gz
 ADD     https://github.com/vradarserver/vrs/releases/download/v3.0.0-preview-7-mono/Plugin-FeedFilter-3.0.0-preview-7.tar.gz /tmp/files/VirtualRadar.FeedFilter.tar.gz
 
 # Config is not in v3 
-#ADD    http://www.virtualradarserver.co.uk/Files/VirtualRadar.exe.config.tar.gz /tmp/files/VirtualRadar.exe.config.tar.gz
+ADD    http://www.virtualradarserver.co.uk/Files/VirtualRadar.exe.config.tar.gz /tmp/files/VirtualRadar.exe.config.tar.gz
 
 # Download Operator Logo Start Pack
 ADD     https://github.com/sxb1n9/docker-virtualradarserver/raw/0f76b9be40e516cf891d49bf7d4e62dca4f1e70f/assets/LOGO.zip /tmp/files/operator-logo-starter-pack.zip
@@ -68,7 +68,9 @@ RUN     mkdir -p /opt/VirtualRadar && \
         tar -C /opt/VirtualRadar -xzf /tmp/files/VirtualRadar.CustomContentPlugin.tar.gz && \
         tar -C /opt/VirtualRadar -xzf /tmp/files/VirtualRadar.DatabaseEditorPlugin.tar.gz && \
         tar -C /opt/VirtualRadar -xzf /tmp/files/VirtualRadar.TileServerCachePlugin.tar.gz && \
-        # tar -C /opt/VirtualRadar -xf /tmp/files/VirtualRadar.exe.config.tar.gz && \
+        tar -C /opt/VirtualRadar -xzf /tmp/files/VirtualRadar.SqlServerPlugin.tar.gz && \
+        tar -C /opt/VirtualRadar -xzf /tmp/files/VirtualRadar.FeedFilter.tar.gz && \
+        tar -C /opt/VirtualRadar -xf /tmp/files/VirtualRadar.exe.config.tar.gz && \
         mkdir -p /config/operatorflags && \
         mkdir -p /config/silhouettes && \
         mkdir -p /config/.local &&\
@@ -77,16 +79,16 @@ RUN     mkdir -p /opt/VirtualRadar && \
 # VRS 1st start
 RUN     echo "Starting VirtualRadarServer for 10 seconds to allow /config to be generated..." && \
         mkdir -p /config/.local/share/VirtualRadar && \
-        timeout 10 mono /opt/VirtualRadar/VirtualRadar.exe -nogui -createAdmin:"$(uuidgen -r)" -password:"$(uuidgen -r)" > /dev/null 2>&1 || true
-        #rm /config/.local/share/VirtualRadar/Users.sqb
+        timeout 10 mono /opt/VirtualRadar/VirtualRadar.exe -nogui -createAdmin:"$(uuidgen -r)" -password:"$(uuidgen -r)" > /dev/null 2>&1 || true && \
+        rm /config/.local/share/VirtualRadar/Users.sqb
 
 # VRS Silhoettes and Flag PATHS
-#RUN     echo "Settings Silhouettes and Flags paths..." && \
-        #cp /config/.local/share/VirtualRadar/Configuration.xml /config/.local/share/VirtualRadar/Configuration.xml.original && \
-        #xmlstarlet ed -s "/Configuration/BaseStationSettings" -t elem -n SilhouettesFolder -v /config/silhouettes /config/.local/share/VirtualRadar/Configuration.xml.original > /config/.local/share/VirtualRadar/Configuration.xml && \
-        #cp /config/.local/share/VirtualRadar/Configuration.xml /config/.local/share/VirtualRadar/Configuration.xml.original && \
-        #xmlstarlet ed -s "/Configuration/BaseStationSettings" -t elem -n OperatorFlagsFolder -v /config/operatorflags /config/.local/share/VirtualRadar/Configuration.xml.original > /config/.local/share/VirtualRadar/Configuration.xml && \
-        #rm /config/.local/share/VirtualRadar/Configuration.xml.original
+RUN     echo "Settings Silhouettes and Flags paths..." && \
+        cp /config/.local/share/VirtualRadar/Configuration.xml /config/.local/share/VirtualRadar/Configuration.xml.original && \
+        xmlstarlet ed -s "/Configuration/BaseStationSettings" -t elem -n SilhouettesFolder -v /config/silhouettes /config/.local/share/VirtualRadar/Configuration.xml.original > /config/.local/share/VirtualRadar/Configuration.xml && \
+        cp /config/.local/share/VirtualRadar/Configuration.xml /config/.local/share/VirtualRadar/Configuration.xml.original && \
+        xmlstarlet ed -s "/Configuration/BaseStationSettings" -t elem -n OperatorFlagsFolder -v /config/operatorflags /config/.local/share/VirtualRadar/Configuration.xml.original > /config/.local/share/VirtualRadar/Configuration.xml && \
+        rm /config/.local/share/VirtualRadar/Configuration.xml.original
         
 # VRS Operator Flags
 RUN     echo "Downloading operator flags..." && \
