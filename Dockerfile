@@ -15,9 +15,6 @@ ADD     https://github.com/vradarserver/vrs/releases/download/v3.0.0-preview-7-m
 ADD     https://github.com/vradarserver/vrs/releases/download/v3.0.0-preview-7-mono/Plugin-SqlServer-3.0.0-preview-7.tar.gz /tmp/files/VirtualRadar.SqlServerPlugin.tar.gz
 ADD     https://github.com/vradarserver/vrs/releases/download/v3.0.0-preview-7-mono/Plugin-FeedFilter-3.0.0-preview-7.tar.gz /tmp/files/VirtualRadar.FeedFilter.tar.gz
 
-# Config is not in v3 
-ADD     http://www.virtualradarserver.co.uk/Files/VirtualRadar.exe.config.tar.gz /tmp/files/VirtualRadar.exe.config.tar.gz
-
 # GET Config from ASSETS
 ADD     https://raw.githubusercontent.com/sxb1n9/docker-virtualradarserver/v3/assets/Configuration.xml /tmp/files/Configuration.xml
 
@@ -60,7 +57,8 @@ RUN     apt-get update --no-install-recommends  -y && \
             mono-complete \
             unzip \
             uuid-runtime \
-            xmlstarlet
+            xmlstarlet \ 
+            curl
         
 # VRS stage
 RUN     mkdir -p /opt/VirtualRadar && \
@@ -73,17 +71,10 @@ RUN     mkdir -p /opt/VirtualRadar && \
         tar -C /opt/VirtualRadar -xzf /tmp/files/VirtualRadar.TileServerCachePlugin.tar.gz && \
         tar -C /opt/VirtualRadar -xzf /tmp/files/VirtualRadar.SqlServerPlugin.tar.gz && \
         tar -C /opt/VirtualRadar -xzf /tmp/files/VirtualRadar.FeedFilter.tar.gz && \
-        #tar -C /opt/VirtualRadar -xzf /tmp/files/VirtualRadar.exe.config.tar.gz && \
         mkdir -p /config/operatorflags && \
         mkdir -p /config/silhouettes && \
         mkdir -p /config/.local &&\
         HOME=/config
-        
-# VRS 1st start
-#RUN     echo "Starting VirtualRadarServer for 10 seconds to allow /config to be generated..." && \
-#        mkdir -p /config/.local/share/VirtualRadar && \
-#        timeout 10 mono /opt/VirtualRadar/VirtualRadar.exe -nogui -createAdmin:"TEST" -password:"TEST" || true && \
-#        rm /config/.local/share/VirtualRadar/Users.sqb
 
 # VRS CONFIG File & Silhoettes & Flag PATHS
 RUN     echo "Settings Silhouettes and Flags paths..." && \
@@ -175,7 +166,8 @@ RUN     apt-get update --no-install-recommends  -y && \
             mono-complete \
             unzip \
             uuid-runtime \
-            xmlstarlet
+            xmlstarlet \ 
+            curl
         
 RUN     echo "Create vrs user..." && \
         useradd --home-dir /home/vrs --skel /etc/skel --create-home --user-group --shell /usr/sbin/nologin vrs && \
