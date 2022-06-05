@@ -166,7 +166,7 @@ RUN     echo "Create VRS User..." && \
 
 # RUN s6-overlay
 RUN     echo "Install s6-overlay..." && \
-        curl -s https://raw.githubusercontent.com/mikenye/deploy-s6-overlay/master/deploy-s6-overlay.sh | sh && \
+        curl -s https://raw.githubusercontent.com/mikenye/deploy-s6-overlay/master/deploy-s6-overlay.sh | sh 
         #wget -q -O /tmp/deploy-s6-overlay.sh https://raw.githubusercontent.com/mikenye/deploy-s6-overlay/master/deploy-s6-overlay.sh && \
         #sh /tmp/deploy-s6-overlay.sh && \
         #rm /tmp/deploy-s6-overlay.sh
