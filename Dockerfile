@@ -81,7 +81,7 @@ RUN     echo "Starting VirtualRadarServer for 10 seconds to allow /config to be 
         #rm /config/.local/share/VirtualRadar/Users.sqb
 
 # VRS Silhoettes and Flag PATHS
-RUN     echo "Settings Silhouettes and Flags paths..." && \
+#RUN     echo "Settings Silhouettes and Flags paths..." && \
         #cp /config/.local/share/VirtualRadar/Configuration.xml /config/.local/share/VirtualRadar/Configuration.xml.original && \
         #xmlstarlet ed -s "/Configuration/BaseStationSettings" -t elem -n SilhouettesFolder -v /config/silhouettes /config/.local/share/VirtualRadar/Configuration.xml.original > /config/.local/share/VirtualRadar/Configuration.xml && \
         #cp /config/.local/share/VirtualRadar/Configuration.xml /config/.local/share/VirtualRadar/Configuration.xml.original && \
