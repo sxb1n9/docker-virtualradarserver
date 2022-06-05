@@ -68,6 +68,8 @@ RUN     mkdir -p /opt/VirtualRadar && \
         tar -C /opt/VirtualRadar -xzf /tmp/files/VirtualRadar.FeedFilter.tar.gz && \
         mkdir -p /config/operatorflags && \
         mkdir -p /config/silhouettes && \
+        mkdir -p /config/pictures && \
+        mkdir -p /config/custom && \
         mkdir -p /config/.local && \
         mkdir -p /config/.local/share/VirtualRadar && \
         HOME=/config
@@ -87,7 +89,8 @@ RUN     echo "Downloading Operator Flags..." && \
         mv /opt/VRS_Extras/dedevillela/VRS-Operator-Flags/CustomOperatorFlags.js /opt/VRS_Extras/dedevillela/VRS-Operator-Flags/CustomOperatorFlags.js.original && \
         echo "<script>" > /opt/VRS_Extras/dedevillela/VRS-Operator-Flags/CustomOperatorFlags.js && \
         cat /opt/VRS_Extras/dedevillela/VRS-Operator-Flags/CustomOperatorFlags.js.original >> /opt/VRS_Extras/dedevillela/VRS-Operator-Flags/CustomOperatorFlags.js && \
-        echo "</script>" >> /opt/VRS_Extras/dedevillela/VRS-Operator-Flags/CustomOperatorFlags.js
+        echo "</script>" >> /opt/VRS_Extras/dedevillela/VRS-Operator-Flags/CustomOperatorFlags.js && \
+        cp /opt/VRS_Extras/dedevillela/VRS-Operator-Flags/CustomOperatorFlags.js /config/custom/CustomOperatorFlags.js
 
 # VRS GET Silhoettes from dedevillela
 RUN     echo "Downloading Silhouettes..." && \
@@ -95,7 +98,8 @@ RUN     echo "Downloading Silhouettes..." && \
         mv /opt/VRS_Extras/dedevillela/VRS-Silhouettes/CustomSilhouette.js /opt/VRS_Extras/dedevillela/VRS-Silhouettes/CustomSilhouette.js.original && \
         echo "<script>" > /opt/VRS_Extras/dedevillela/VRS-Silhouettes/CustomSilhouette.js && \
         cat /opt/VRS_Extras/dedevillela/VRS-Silhouettes/CustomSilhouette.js.original >> /opt/VRS_Extras/dedevillela/VRS-Silhouettes/CustomSilhouette.js && \
-        echo "</script>" >> /opt/VRS_Extras/dedevillela/VRS-Silhouettes/CustomSilhouette.js
+        echo "</script>" >> /opt/VRS_Extras/dedevillela/VRS-Silhouettes/CustomSilhouette.js && \
+        cp /opt/VRS_Extras/dedevillela/VRS-Silhouettes/CustomSilhouette.js /config/custom/CustomSilhouette.js
         
 # VRS GET Country Flags from dedevillela
 RUN     echo "Downloading Country Flags..." && \
@@ -109,8 +113,10 @@ RUN     echo "Downloading Aircraft Markers..." && \
 # VRS GET Aviation Operator Logo Starter Pack from ASSETS
 RUN     echo "Unzipping Bones Aviation Operator Logo Starter Pack..." && \
         mkdir -p /opt/VRS_Extras/bonesaviation/operator-logo-starter-pack && \
-        unzip /tmp/files/operator-logo-starter-pack.zip -d /opt/VRS_Extras/bonesaviation/operator-logo-starter-pack && \
-        echo "Applying Custom Content Plugin Config..." && \
+        unzip /tmp/files/operator-logo-starter-pack.zip -d /opt/VRS_Extras/bonesaviation/operator-logo-starter-pack
+
+# Update PluginsConfigurations.xml
+RUN     echo "Applying Custom Content Plugin Config..." && \
         echo "VirtualRadar.Plugin.CustomContent.Options=%3c%3fxml+version%3d%221.0%22%3f%3e%0a%3cOptions+xmlns%3axsd%3d%22http%3a%2f%2fwww.w3.org%2f2001%2fXMLSchema%22+xmlns%3axsi%3d%22http%3a%2f%2fwww.w3.org%2f2001%2fXMLSchema-instance%22%3e%0a++%3cDataVersion%3e3%3c%2fDataVersion%3e%0a++%3cEnabled%3efalse%3c%2fEnabled%3e%0a++%3cInjectSettings%3e%0a++++%3cInjectSettings%3e%0a++++++%3cEnabled%3etrue%3c%2fEnabled%3e%0a++++++%3cPathAndFile%3e*%3c%2fPathAndFile%3e%0a++++++%3cInjectionLocation%3eHead%3c%2fInjectionLocation%3e%0a++++++%3cStart%3efalse%3c%2fStart%3e%0a++++++%3cFile%3e%2fopt%2fVRS_Extras%2fdedevillela%2fVRS-Operator-Flags%2fCustomOperatorFlags.js%3c%2fFile%3e%0a++++%3c%2fInjectSettings%3e%0a++++%3cInjectSettings%3e%0a++++++%3cEnabled%3etrue%3c%2fEnabled%3e%0a++++++%3cPathAndFile%3e*%3c%2fPathAndFile%3e%0a++++++%3cInjectionLocation%3eHead%3c%2fInjectionLocation%3e%0a++++++%3cStart%3efalse%3c%2fStart%3e%0a++++++%3cFile%3e%2fopt%2fVRS_Extras%2fdedevillela%2fVRS-Silhouettes%2fCustomSilhouette.js%3c%2fFile%3e%0a++++%3c%2fInjectSettings%3e%0a++++%3cInjectSettings%3e%0a++++++%3cEnabled%3etrue%3c%2fEnabled%3e%0a++++++%3cPathAndFile%3e*%3c%2fPathAndFile%3e%0a++++++%3cInjectionLocation%3eHead%3c%2fInjectionLocation%3e%0a++++++%3cStart%3efalse%3c%2fStart%3e%0a++++++%3cFile%3e%2fopt%2fVRS_Extras%2fdedevillela%2fVRS-Aircraft-Markers%2fCustomAircraftMarkers.html%3c%2fFile%3e%0a++++%3c%2fInjectSettings%3e%0a++%3c%2fInjectSettings%3e%0a%3c%2fOptions%3e" > /config/.local/share/VirtualRadar/PluginsConfiguration.txt
 
 # FINAL -----------------------------------------------------------------------------------------------
@@ -124,6 +130,7 @@ ENV     S6_BEHAVIOUR_IF_STAGE2_FAILS=2 \
 
 COPY    --from=builder /opt /opt
 COPY    --from=builder /config /config
+
 SHELL   ["/bin/bash", "-o", "pipefail", "-c"]
 
 # DEPENDENCIES
