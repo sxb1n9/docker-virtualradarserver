@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <DataVersion>14</DataVersion>
+  <DataVersion>15</DataVersion>
   <BaseStationSettings>
     <ConnectionType>TCP</ConnectionType>
     <AutoReconnectAtStartup>false</AutoReconnectAtStartup>
@@ -58,9 +58,9 @@
     <EnableBundling>true</EnableBundling>
     <EnableMinifying>true</EnableMinifying>
     <EnableCompression>true</EnableCompression>
-    <WebSiteReceiverId>1</WebSiteReceiverId>
-    <ClosestAircraftReceiverId>1</ClosestAircraftReceiverId>
-    <FlightSimulatorXReceiverId>1</FlightSimulatorXReceiverId>
+    <WebSiteReceiverId>2</WebSiteReceiverId>
+    <ClosestAircraftReceiverId>2</ClosestAircraftReceiverId>
+    <FlightSimulatorXReceiverId>2</FlightSimulatorXReceiverId>
     <ProxyType>Unknown</ProxyType>
     <EnableCorsSupport>false</EnableCorsSupport>
     <GoogleMapsApiKey></GoogleMapsApiKey>
