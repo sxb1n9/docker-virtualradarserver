@@ -44,11 +44,11 @@ RUN     apt-get update; \
         apt-get install -y apt-transport-https
 RUN     mkdir -p dotnet && \
         cd dotnet/ && \
-        wget https://packages.microsoft.com/config/debian/10/packages-microsoft-prod.deb
-RUN     dpkg -i packages-microsoft-prod.deb
+        wget https://packages.microsoft.com/config/debian/10/packages-microsoft-prod.deb && \ 
+        dpkg -i packages-microsoft-prod.deb && \
+        rm packages-microsoft-prod.deb
 RUN     apt-get update
-RUN     apt-get install -y dotnet-runtime-3.1 && \
-        cd .. 
+RUN     apt-get install -y dotnet-runtime-3.1 
 
 # update 
 RUN     apt-get update --no-install-recommends  -y && \
