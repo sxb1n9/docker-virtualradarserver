@@ -30,9 +30,17 @@ RUN     set -x && \
         apt-get install --no-install-recommends -y \
             apt-transport-https \
             ca-certificates \
+            curl \
+            file \
             dirmngr \
             gnupg \ 
-            wget
+            wget \ 
+            git \
+            mono-complete \
+            unzip \
+            uuid-runtime \
+            xmlstarlet \ 
+            sqlite3
 
 # UBUNTO KEY
 RUN     apt-key adv \
@@ -47,17 +55,6 @@ RUN     mkdir -p dotnet && \
         rm packages-microsoft-prod.deb
 RUN     apt-get update -y 
 RUN     apt-get install --no-install-recommends -y dotnet-runtime-3.1 
-
-# DEPENDENCIES afterward
-RUN     apt-get update -y && \
-        apt-get install --no-install-recommends -y \
-            git \
-            mono-complete \
-            unzip \
-            uuid-runtime \
-            xmlstarlet \ 
-            curl \
-            sqlite3
         
 # VRS STAGE
 RUN     mkdir -p /opt/VirtualRadar && \
@@ -136,9 +133,17 @@ RUN     set -x && \
         apt-get install --no-install-recommends -y \
             apt-transport-https \
             ca-certificates \
+            curl \
+            file \
             dirmngr \
             gnupg \ 
-            wget
+            wget \ 
+            git \
+            mono-complete \
+            unzip \
+            uuid-runtime \
+            xmlstarlet \ 
+            sqlite3
 
 # UBUNTO KEY
 RUN     apt-key adv \
@@ -154,33 +159,26 @@ RUN     mkdir -p dotnet && \
 RUN     apt-get update -y 
 RUN     apt-get install --no-install-recommends -y dotnet-runtime-3.1 
 
-# DEPENDENCIES afterward
-RUN     apt-get update -y && \
-        apt-get install --no-install-recommends -y \
-            git \
-            mono-complete \
-            unzip \
-            uuid-runtime \
-            xmlstarlet \ 
-            curl \
-            sqlite3
-
 # SET VRS User
 RUN     echo "Create VRS User..." && \
         useradd --home-dir /home/vrs --skel /etc/skel --create-home --user-group --shell /usr/sbin/nologin vrs && \
         chown -R vrs:vrs /config
 
-# GET s6-overlay
+# RUN s6-overlay
 RUN     echo "Install s6-overlay..." && \
         curl -s https://raw.githubusercontent.com/mikenye/deploy-s6-overlay/master/deploy-s6-overlay.sh | sh && \
-        echo "Clean up..."
+        #wget -q -O /tmp/deploy-s6-overlay.sh https://raw.githubusercontent.com/mikenye/deploy-s6-overlay/master/deploy-s6-overlay.sh && \
+        #sh /tmp/deploy-s6-overlay.sh && \
+        #rm /tmp/deploy-s6-overlay.sh
     
-# CLEAN
-RUN     apt-get remove -y \
+# AUTO REMOVE & CLEAN & FOLDER DELET
+RUN     echo "AUTO REMOVE & CLEAN & FOLDER DELET - STAGE 1" && \
+        apt-get remove -y \
             apt-transport-https \
             file \
-            gnupg \
-            && \
+            gnupg
+            
+RUN     echo "AUTO REMOVE & CLEAN & FOLDER DELETE - STAGE 2" && \
         apt-get autoremove -y && \
         apt-get clean -y && \
         rm -rf /opt/helpers /tmp/* /var/lib/apt/lists/*
